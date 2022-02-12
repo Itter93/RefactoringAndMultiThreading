@@ -18,8 +18,7 @@ public class Request {
         try {
             List<NameValuePair> param = URLEncodedUtils.parse(new URI(url), "UTF-8");
             for (NameValuePair parameter : param) {
-                if (!(parameter.getName().isEmpty() && parameter.getValue().isEmpty()))
-                    params.put(parameter.getName(), parameter.getValue());
+                params.put(parameter.getName(), parameter.getValue());
             }
             return params;
         } catch (URISyntaxException ex) {
