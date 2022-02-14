@@ -43,7 +43,7 @@ public class Server {
 
             final var path = parts[1];
             final var request = new Request();
-            request.getQueryParams(path);
+            System.out.println(request.getQueryParams(path));
 
             if (!validPaths.contains(path)) {
                 out.write((
