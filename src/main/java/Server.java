@@ -42,6 +42,7 @@ public class Server {
             }
 
             final var path = parts[1];
+
             final var request = new Request();
             System.out.println(request.getQueryParams(path));
 
