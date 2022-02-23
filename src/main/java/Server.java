@@ -1,3 +1,5 @@
+import org.apache.http.NameValuePair;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
+    private String queryName = "login";
     final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.png", "/resources.html", "/styles.css", "/app.js", "/links.html", "/forms.html", "/classic.html", "/events.html", "/events.js");
     ExecutorService threadPool;
 
@@ -43,8 +46,22 @@ public class Server {
 
             final var path = parts[1];
 
-            final var request = new Request();
-            System.out.println(request.getQueryParams(path));
+            final var request = new Request(path);
+            List<NameValuePair> queryParams = request.getQueryParams();
+            if (queryParams != null && !queryParams.isEmpty()) {
+                System.out.print("Параметры: ");
+                request.getQueryParams().forEach(o -> {
+                    System.out.print(o.getName() + " = " + o.getValue() + "; ");
+                });
+                System.out.println();
+                System.out.format("Значения параметра \"%s\": ", queryName);
+                request.getQueryParam(queryName).forEach(o -> {
+                    System.out.print(o.getValue() + "; ");
+                });
+            } else {
+                System.out.print("Параметры отсутсвуют\n");
+            }
+
 
             if (!validPaths.contains(path)) {
                 out.write((
